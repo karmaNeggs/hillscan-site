@@ -276,7 +276,8 @@ footer p { max-width: 62em; }
 
       <div class="result" id="res-yes" aria-live="polite">
         <p class="badge ok">&#10003; This location is in our coverage area.</p>
-        <div class="price"><b>&#8377;11,999</b><span>per patch. One patch is about 0.8 km&sup2; around your point; we confirm the exact patch when we reply.</span></div>
+        <p class="sub" style="color:var(--ink)">We found a patch of about 0.8 km&sup2; around your point. Please share your email or phone to continue.</p>
+        <div class="price"><b>&#8377;11,999</b><span>per patch, for individual plots. Area rates can be negotiated.</span></div>
         <form class="send" data-kind="report request" novalidate>
           <div class="field"><label for="c1">Your email or phone</label><input id="c1" name="contact" autocomplete="email" placeholder="you@company.com or +91 ..."></div>
           <input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -299,19 +300,18 @@ footer p { max-width: 62em; }
 
     <div class="card">
       <div>
-        <h3>Several plots?</h3>
-        <p class="sub">Register interest in batch reports and we will get in touch.</p>
+        <h3>Bulk land scan</h3>
+        <p class="sub">Scanning an area or a portfolio? Share your contact and we will get in touch with area rates.</p>
       </div>
-      <form class="send" data-kind="batch interest" novalidate>
+      <form class="send" data-kind="bulk land scan" novalidate>
         <div class="field"><label for="c3">Your email or phone</label><input id="c3" name="contact" autocomplete="email" placeholder="you@company.com or +91 ..."></div>
-        <div class="field"><label for="n3">About how many plots? (optional)</label><input id="n3" name="plots" inputmode="numeric" placeholder="e.g. 25"></div>
         <input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="btn primary" type="submit" style="justify-self:start">Register interest</button>
+        <button class="btn primary" type="submit" style="justify-self:start">Get in touch</button>
         <p class="msg" role="status"></p>
       </form>
     </div>
   </div>
-  <p class="vsnote">We use your details only to reply to your request. Prices are per patch and shown in rupees.</p>
+  <p class="vsnote">We use your details only to reply to your request. Prices are per patch, in rupees.</p>
 </section>
 
 <div class="band"><section id="problem" class="wrap">
@@ -491,16 +491,23 @@ footer p { max-width: 62em; }
 
   var form = document.getElementById('coordform'), msg = document.getElementById('coordmsg');
   var yes = document.getElementById('res-yes'), no = document.getElementById('res-no');
+  var checking = false;
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    yes.classList.remove('show'); no.classList.remove('show'); msg.textContent = '';
+    if (checking) return;
+    yes.classList.remove('show'); no.classList.remove('show'); msg.className = 'msg'; msg.textContent = '';
     var p = parse(document.getElementById('coords').value);
-    if (!p) { msg.textContent = 'Enter two numbers, latitude then longitude, for example 30.3165, 78.0322.'; return; }
-    var c = covered(p.lat, p.lon);
-    if (c === null) { msg.textContent = 'Coverage data is still loading. Try again in a moment.'; return; }
-    point = p;
-    if (p.swapped) msg.textContent = 'We read this as latitude ' + p.lat + ', longitude ' + p.lon + '.';
-    (c ? yes : no).classList.add('show');
+    if (!p) { msg.className = 'msg err'; msg.textContent = 'Enter two numbers, latitude then longitude, for example 30.3165, 78.0322.'; return; }
+    var btn = form.querySelector('button'); checking = true; btn.disabled = true;
+    msg.textContent = 'Checking coverage and looking for your patch...';
+    setTimeout(function () {
+      checking = false; btn.disabled = false;
+      var c = covered(p.lat, p.lon);
+      if (c === null) { msg.className = 'msg err'; msg.textContent = 'Coverage data is still loading. Try again in a moment.'; return; }
+      point = p;
+      msg.textContent = p.swapped ? 'We read this as latitude ' + p.lat + ', longitude ' + p.lon + '.' : '';
+      (c ? yes : no).classList.add('show');
+    }, 2000);
   });
 
   function okContact(v) { v = (v || '').trim(); return /.+@.+\..+/.test(v) || (v.replace(/\D/g, '').length >= 7); }
@@ -513,9 +520,8 @@ footer p { max-width: 62em; }
       if (!okContact(contact)) { out.className = 'msg err'; out.textContent = 'Enter an email address or a phone number.'; return; }
       var body = { _subject: 'HillScan Report: ' + kind, _template: 'table', _captcha: 'false', _honey: f.elements._honey.value,
                    type: kind, contact: contact.trim(), page: location.href };
-      if (kind !== 'batch interest' && point) { body.latitude = point.lat; body.longitude = point.lon; body.in_coverage = (kind === 'report request') ? 'yes' : 'no'; }
+      if (kind !== 'bulk land scan' && point) { body.latitude = point.lat; body.longitude = point.lon; body.in_coverage = (kind === 'report request') ? 'yes' : 'no'; }
       if (kind === 'report request') body.price = PRICE;
-      if (kind === 'batch interest') body.plots = f.elements.plots.value || '';
       btn.disabled = true; out.textContent = 'Sending...';
       fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(body) })
         .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
