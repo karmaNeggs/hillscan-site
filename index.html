@@ -9,6 +9,10 @@
 <meta property="og:title" content="HillScan Report">
 <meta property="og:description" content="Hill land risk intelligence for Uttarakhand and Himachal Pradesh.">
 <meta property="og:url" content="https://hillscanreport.com/">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/favicon.png">
+<meta property="og:image" content="https://hillscanreport.com/img/region-dehradun.jpg">
+<meta name="theme-color" content="#1E370A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
@@ -16,14 +20,16 @@
 /* Layout: one long, calm scroll. Wide hero with the 30 m ground map, then problem, what you get, evidence, process, about, contact.
    Boldness lives in one place: the evidence chart. Everything else stays quiet. */
 :root {
-  --bg: #F6F8F9;          /* cool paper */
+  --bg: #F5F3EC;          /* warm paper */
   --surface: #FFFFFF;
-  --ice: #E6EEF2;         /* tinted band */
-  --ink: #0F2230;         /* blue-black text */
-  --muted: #4B606E;
-  --line: #D3DDE3;
-  --glacier: #1D5B76;     /* primary */
-  --glacier-ink: #FFFFFF; /* text on primary */
+  --ice: #E9E6D8;         /* tinted band */
+  --ink: #1B2A10;         /* forest-black text */
+  --muted: #55604A;
+  --line: #D9D5C3;
+  --glacier: #1E370A;     /* primary: forest, from the logo */
+  --glacier-ink: #F3F0E2; /* text on primary */
+  --forest: #1E370A;      /* fixed dark bands */
+  --cream: #E6E2CF;       /* fixed text on dark bands */
   --amber: #B8741A;       /* data accent, used only for evidence */
   --display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
   --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
@@ -31,13 +37,13 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0B1822; --surface: #11222E; --ice: #14293A; --ink: #E8EFF3; --muted: #9FB3C0; --line: #25394A;
-    --glacier: #6FB2CF; --glacier-ink: #08202C; --amber: #E0A24A; color-scheme: dark;
+    --bg: #0E1A08; --surface: #16240D; --ice: #1A2B10; --ink: #ECEBDD; --muted: #A9B39A; --line: #2B3D1F;
+    --glacier: #C9C5AE; --glacier-ink: #1E370A; --amber: #E0A24A; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0B1822; --surface: #11222E; --ice: #14293A; --ink: #E8EFF3; --muted: #9FB3C0; --line: #25394A;
-  --glacier: #6FB2CF; --glacier-ink: #08202C; --amber: #E0A24A; color-scheme: dark;
+  --bg: #0E1A08; --surface: #16240D; --ice: #1A2B10; --ink: #ECEBDD; --muted: #A9B39A; --line: #2B3D1F;
+  --glacier: #C9C5AE; --glacier-ink: #1E370A; --amber: #E0A24A; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -56,25 +62,50 @@ a:focus-visible, .btn:focus-visible { outline: 3px solid var(--amber); outline-o
 .btn.ghost { color: var(--glacier); }
 .btn:hover { filter: brightness(1.08); }
 
+.heroband { background: var(--forest); color: var(--cream); margin-inline: -20px; padding-inline: 20px; }
+.heroband a { color: var(--cream); }
 nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 20px; }
-.mark { font: 700 1.35rem/1 var(--display); letter-spacing: -0.03em; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.mark svg { width: 26px; height: 26px; }
+.mark { font: 700 1.2rem/1 var(--display); letter-spacing: -0.02em; color: var(--cream); text-decoration: none; display: flex; align-items: center; gap: 12px; }
+.mark img { width: 38px; height: auto; display: block; }
 nav ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; font-size: 0.95rem; }
-nav ul a { color: var(--muted); text-decoration: none; }
-nav ul a:hover { color: var(--ink); }
+nav ul a { color: rgba(230,226,207,.78); text-decoration: none; }
+nav ul a:hover { color: var(--cream); }
 @media (max-width: 760px) { nav ul { display: none; } }
+.heroband .btn { border-color: var(--cream); }
+.heroband .btn.primary { background: var(--cream); color: var(--forest); }
+.heroband .btn.ghost { color: var(--cream); }
+.heroband .eyebrow, .heroband .hero p.lead { color: rgba(230,226,207,.78); }
 
-.hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; padding-block: clamp(36px, 7vw, 84px) clamp(48px, 8vw, 96px); }
+.hero { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(48px, 7vw, 88px); }
 .hero > * { min-width: 0; }
-.hero p.lead { font-size: 1.28rem; color: var(--muted); margin-top: 22px; max-width: 34em; }
+.hero p.lead { font-size: 1.28rem; margin-top: 22px; max-width: 32em; }
 .hero .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .hero figure { margin: 0; }
-.hero img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
-.hero figcaption { font: 400 0.8rem/1.45 var(--mono); color: var(--muted); margin-top: 10px; }
+.hero img { width: 100%; height: auto; display: block; border-radius: 10px; border: 1px solid rgba(230,226,207,.28); box-shadow: 0 22px 50px rgba(0,0,0,.35); aspect-ratio: 1; object-fit: cover; }
+.hero figcaption { font: 400 0.8rem/1.45 var(--mono); color: rgba(230,226,207,.7); margin-top: 12px; }
 .rise { animation: rise .7s ease-out both; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .rise { animation: none; } html { scroll-behavior: auto; } }
 @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } }
+
+.legend { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-bottom: 22px; font-size: 0.95rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 9px; }
+.legend i { width: 18px; height: 18px; border-radius: 4px; display: inline-block; border: 1px solid rgba(0,0,0,.15); }
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 3vw, 32px); }
+.vs > * { min-width: 0; }
+.vs figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.vs img { width: 100%; height: auto; display: block; aspect-ratio: 1; object-fit: cover; }
+.vs figcaption { padding: 18px 20px 20px; display: grid; gap: 4px; }
+.vs figcaption b { font: 600 1.15rem/1.2 var(--display); letter-spacing: -0.01em; }
+.vs figcaption span { color: var(--muted); font-size: 0.95rem; }
+.facts { width: 100%; border-collapse: collapse; margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; font-size: 0.98rem; }
+.facts th, .facts td { text-align: left; padding: 13px 18px; border-bottom: 1px solid var(--line); }
+.facts tr:last-child th, .facts tr:last-child td { border-bottom: 0; }
+.facts thead th { font: 500 0.75rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--ice); }
+.facts tbody th { font-weight: 500; color: var(--muted); }
+.facts td { font-family: var(--mono); font-size: 0.92rem; }
+.vsnote { color: var(--muted); font-size: 0.9rem; margin-top: 14px; max-width: 52em; }
+@media (max-width: 760px) { .vs { grid-template-columns: 1fr; } .facts th, .facts td { padding: 11px 12px; } }
 
 section { padding-block: clamp(56px, 8vw, 104px); }
 .band { background: var(--ice); margin-inline: -20px; padding-inline: 20px; }
@@ -130,13 +161,14 @@ section { padding-block: clamp(56px, 8vw, 104px); }
 .about p { color: var(--muted); }
 @media (max-width: 760px) { .about { grid-template-columns: 1fr; } }
 
-.contact { background: var(--glacier); color: var(--glacier-ink); margin-inline: -20px; padding-inline: 20px; }
+.contact { background: var(--forest); color: var(--cream); margin-inline: -20px; padding-inline: 20px; }
 .contact .wrap { display: grid; gap: 20px; justify-items: start; }
 .contact h2 { max-width: 16em; }
 .contact p { opacity: .9; max-width: 34em; }
-.contact .btn { background: var(--glacier-ink); color: var(--glacier); border-color: var(--glacier-ink); }
+.contact .btn { background: var(--cream); color: var(--forest); border-color: var(--cream); }
 .contact code { font: 500 0.95rem var(--mono); user-select: all; }
 
+footer .flogo { width: 54px; height: auto; display: block; margin-bottom: 4px; }
 footer { padding-block: 40px 56px; font-size: 0.85rem; color: var(--muted); display: grid; gap: 12px; }
 footer p { max-width: 62em; }
 </style>
@@ -144,14 +176,15 @@ footer p { max-width: 62em; }
 
 </head>
 <body>
-<div class="wrap">
+<div class="heroband"><div class="wrap">
   <nav aria-label="Main">
     <a class="mark" href="#top" id="top">
-      <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M13 1.5 22.5 7v12L13 24.5 3.5 19V7z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 17.5 11 10l3.2 4.6L16.5 12 21 17.5" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linejoin="round"/></svg>
+      <img src="img/mark-cream.png" alt="" width="38" height="38">
       HillScan Report
     </a>
     <ul>
       <li><a href="#what">What you get</a></li>
+      <li><a href="#ground">The ground</a></li>
       <li><a href="#evidence">Evidence</a></li>
       <li><a href="#how">How it works</a></li>
       <li><a href="#about">About</a></li>
@@ -170,11 +203,11 @@ footer p { max-width: 62em; }
       </div>
     </div>
     <figure class="rise" style="animation-delay:.12s">
-      <img src="img/ground-sample.png" alt="30 metre ground classes around a sample plot, with the report patch outlined" width="475" height="475">
-      <figcaption>From the sample report: 30 m ground classes around one plot. Green is buildable by slope rule, red is too steep, blue is torrent or river floor.</figcaption>
+      <img src="img/region-dehradun.jpg" alt="Ground classes across the Dehradun valley: buildable ground in green, river and torrent floors in blue, steep ground in red" width="1338" height="1338">
+      <figcaption>From the sample report: ground classes at 30 m across the Dehradun valley. Blue is the torrent and river floors that water follows.</figcaption>
     </figure>
   </header>
-</div>
+</div></div>
 
 <div class="band"><section id="problem" class="wrap">
   <div class="head"><p class="eyebrow">The problem</p><h2>Hill plots look the same on a brochure and fail very differently on the ground.</h2></div>
@@ -197,6 +230,33 @@ footer p { max-width: 62em; }
   </div>
   <div class="counts"><span><b>80+</b> measured values</span><span><b>9</b> sections</span><span><b>30</b> climate rows, scored 1 to 5</span><span><b>1</b> PDF per plot</span></div>
 </section>
+
+<div class="band"><section id="ground" class="wrap">
+  <div class="head"><p class="eyebrow">The ground</p><h2>Same state, different ground.</h2><p>Dehradun's constraint is rivers and torrents on a flat valley floor. Chakrata's is slope. The report shows which, and how much, for your plot.</p></div>
+  <div class="legend" aria-label="Map key">
+    <span><i style="background:#74B787"></i>Buildable by slope rule</span>
+    <span><i style="background:#C95B5B"></i>Too steep (over 25°)</span>
+    <span><i style="background:#3F78D1"></i>Torrent or river floor</span>
+  </div>
+  <div class="vs">
+    <figure><img src="img/region-dehradun.jpg" alt="Ground classes around the Dehradun sample plot" width="1338" height="1338" loading="lazy">
+      <figcaption><b>Dehradun</b><span>Valley floor, cut by river and torrent channels.</span></figcaption></figure>
+    <figure><img src="img/region-chakrata.jpg" alt="Ground classes around the Chakrata sample plot" width="1342" height="1342" loading="lazy">
+      <figcaption><b>Chakrata</b><span>Ridges and steep slopes, with narrow river floors.</span></figcaption></figure>
+  </div>
+  <table class="facts">
+    <thead><tr><th></th><th>Dehradun sample plot</th><th>Chakrata sample plot</th></tr></thead>
+    <tbody>
+      <tr><th>Elevation</th><td>651 m</td><td>2,118 m</td></tr>
+      <tr><th>Position</th><td>Flat terrace or bench</td><td>Ridge or spur</td></tr>
+      <tr><th>Slope at the plot</th><td>2.7°</td><td>9.7°</td></tr>
+      <tr><th>Buildable by slope rule, 2.6 km around</th><td>90%</td><td>25%</td></tr>
+      <tr><th>Too steep, 2.6 km around</th><td>0%</td><td>75%</td></tr>
+      <tr><th>Torrent or river floor, 2.6 km around</th><td>10%</td><td>under 1%</td></tr>
+    </tbody>
+  </table>
+  <p class="vsnote">Each map shows about 22 km across, with one sample plot marked. The figures come from the sample reports: plot values are measured at the exact 30 m pixel, the shares across a 2.6 km window.</p>
+</section></div>
 
 <div class="band"><section id="evidence" class="wrap">
   <div class="head"><p class="eyebrow">Evidence</p><h2>Tested on landslides the model had never seen.</h2><p>We trained on one inventory and tested on 67 recorded landslides found afterwards, in Himachal Pradesh and Uttarakhand.</p></div>
@@ -245,6 +305,7 @@ footer p { max-width: 62em; }
 </section></div>
 
 <div class="wrap"><footer>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="img/mark-cream.png"><img class="flogo" src="img/mark-green.png" alt="" width="54" height="54"></picture>
   <p><b>HillScan Report</b> · Hill land risk intelligence · Uttarakhand and Himachal Pradesh</p>
   <p>A screening report ranks relative risk. It is not a certificate that any plot is safe, a site survey, an engineering assessment or a legal opinion, and it does not cover title, ownership, zoning or earthquake engineering. Visit the site and consult a qualified engineer and lawyer before buying, lending or building. Method and test results are shared on request.</p>
   <p>Data: Copernicus DEM, OpenStreetMap contributors (ODbL), ERA5-Land, JRC Global Surface Water, Hi-MAG glacial lakes, Randolph Glacier Inventory, Geological Survey of India landslide inventory, WorldPop. Sources and terms are listed in every report.</p>
