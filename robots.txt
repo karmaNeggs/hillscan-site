@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hillscanreport.com/sitemap.xml
