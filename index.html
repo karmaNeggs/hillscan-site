@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Per-plot hill land risk reports for Uttarakhand and Himachal Pradesh: 30 m ground maps, rivers and torrents, landslide rank, climate and access, tested on 67 recorded landslides.">
+<meta name="description" content="Per-plot hill land risk reports: 30 m ground maps, rivers and torrents, landslide rank, climate and access, tested on 67 recorded landslides. Starting with Uttarakhand and Himachal Pradesh.">
 <title>HillScan Report</title>
 <link rel="canonical" href="https://hillscanreport.com/">
 <meta property="og:title" content="HillScan Report">
-<meta property="og:description" content="Hill land risk intelligence for Uttarakhand and Himachal Pradesh.">
+<meta property="og:description" content="Hill land risk intelligence. Starting with Uttarakhand and Himachal Pradesh.">
 <meta property="og:url" content="https://hillscanreport.com/">
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="apple-touch-icon" href="img/favicon.png">
 <meta property="og:image" content="https://hillscanreport.com/img/dehradun-region.jpg">
 <meta name="theme-color" content="#1E370A">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"HillScan Report","url":"https://hillscanreport.com/","logo":"https://hillscanreport.com/img/logo-green.png","email":"hello@hillscanreport.com","sameAs":["https://www.linkedin.com/company/hillscan-reports"],"description":"Hill land risk intelligence for Uttarakhand and Himachal Pradesh: per-plot site reports on slope, rivers, torrents, landslide rank, climate and access."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"HillScan Report","url":"https://hillscanreport.com/","logo":"https://hillscanreport.com/img/logo-green.png","email":"hello@hillscanreport.com","sameAs":["https://www.linkedin.com/company/hillscan-reports"],"description":"Hill land risk intelligence: per-plot site reports on slope, rivers, torrents, landslide rank, climate and access."}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
@@ -105,6 +105,39 @@ nav ul a:hover { color: var(--cream); }
 .facts thead th { font: 500 0.75rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--ice); }
 .facts tbody th { font-weight: 500; color: var(--muted); }
 .facts td { font-family: var(--mono); font-size: 0.92rem; }
+.check { padding-block: clamp(48px, 7vw, 88px); }
+.cards { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(16px, 3vw, 32px); align-items: start; }
+.cards > * { min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: clamp(20px, 3vw, 32px); display: grid; gap: 16px; }
+.card h3 { font-size: 1.3rem; }
+.card .sub { color: var(--muted); font-size: 0.98rem; }
+.field { display: grid; gap: 6px; }
+.field label { font: 500 0.78rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.field input { font: 500 1.05rem/1.2 var(--body); padding: 14px 14px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); width: 100%; }
+.field input:focus-visible { outline: 3px solid var(--amber); outline-offset: 1px; border-color: var(--glacier); }
+.field .hint { font-size: 0.85rem; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+.row .field { flex: 1 1 220px; }
+button.btn { cursor: pointer; font-family: var(--body); }
+button.btn.primary { background: var(--glacier); color: var(--glacier-ink); }
+button.btn[disabled] { opacity: .55; cursor: progress; }
+.result { display: none; gap: 14px; border-top: 1px solid var(--line); padding-top: 18px; }
+.result.show { display: grid; }
+.badge { display: inline-flex; align-items: center; gap: 8px; font: 600 1rem/1.3 var(--body); }
+.badge.ok { color: #2B6A18; }
+.badge.no { color: var(--amber); }
+:root[data-theme="dark"] .badge.ok { color: #8FD37A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .badge.ok { color: #8FD37A; } }
+.price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.price b { font: 700 2.4rem/1 var(--display); letter-spacing: -0.03em; }
+.price span { color: var(--muted); }
+.msg { font-size: 0.95rem; min-height: 1.4em; }
+.msg.err { color: #B3361F; }
+.msg.done { color: #2B6A18; font-weight: 600; }
+form.send { display: grid; gap: 14px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+@media (max-width: 860px) { .cards { grid-template-columns: 1fr; } }
+.zlabel-gap { margin-top: 2px; }
 .zoombar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-bottom: 20px; }
 .zoombar[hidden] { display: none; }
 .zlabel { font: 500 0.78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
@@ -198,22 +231,23 @@ footer p { max-width: 62em; }
       HillScan Report
     </a>
     <ul>
+      <li><a href="#check">Find your report</a></li>
       <li><a href="#what">What you get</a></li>
       <li><a href="#ground">The ground</a></li>
       <li><a href="#evidence">Evidence</a></li>
       <li><a href="#how">How it works</a></li>
       <li><a href="#about">About</a></li>
     </ul>
-    <a class="btn primary" href="mailto:hello@hillscanreport.com?subject=Site%20report%20request">Get a report</a>
+    <a class="btn primary" href="#check">Find your report</a>
   </nav>
 
   <header class="hero">
     <div class="rise">
       <p class="eyebrow">Hill land risk intelligence</p>
       <h1 style="margin-top:18px">Know the ground before you buy it.</h1>
-      <p class="lead">Real estate and industrial development intelligence for Uttarakhand and Himachal Pradesh. Scan your investments for risk, plot by plot.</p>
+      <p class="lead">Real estate and industrial development intelligence for hill land. Scan your investments for risk, plot by plot.</p>
       <div class="cta">
-        <a class="btn primary" href="mailto:hello@hillscanreport.com?subject=Site%20report%20request">Get a report</a>
+        <a class="btn primary" href="#check">Find your report</a>
         <a class="btn ghost" href="sample/himscan-sample-report.pdf">View a sample report</a>
       </div>
     </div>
@@ -223,6 +257,62 @@ footer p { max-width: 62em; }
     </figure>
   </header>
 </div></div>
+
+<section id="check" class="wrap check">
+  <div class="head"><p class="eyebrow">Find your report</p><h2>Is your plot covered?</h2><p>Enter the plot's coordinates. We are starting with Uttarakhand and Himachal Pradesh and will add more hill regions.</p></div>
+  <div class="cards">
+    <div class="card">
+      <div>
+        <h3>Check a location</h3>
+        <p class="sub">In Google Maps, right-click the plot and copy the two numbers shown.</p>
+      </div>
+      <form id="coordform" novalidate>
+        <div class="row">
+          <div class="field"><label for="coords">Latitude, longitude</label><input id="coords" name="coords" inputmode="decimal" autocomplete="off" placeholder="30.3165, 78.0322"></div>
+          <button class="btn primary" type="submit" style="align-self:end">Check coverage</button>
+        </div>
+      </form>
+      <p class="msg err" id="coordmsg" role="alert"></p>
+
+      <div class="result" id="res-yes" aria-live="polite">
+        <p class="badge ok">&#10003; This location is in our coverage area.</p>
+        <div class="price"><b>&#8377;11,999</b><span>per patch. One patch is about 0.8 km&sup2; around your point; we confirm the exact patch when we reply.</span></div>
+        <form class="send" data-kind="report request" novalidate>
+          <div class="field"><label for="c1">Your email or phone</label><input id="c1" name="contact" autocomplete="email" placeholder="you@company.com or +91 ..."></div>
+          <input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn primary" type="submit" style="justify-self:start">Request this report</button>
+          <p class="msg" role="status"></p>
+        </form>
+      </div>
+
+      <div class="result" id="res-no" aria-live="polite">
+        <p class="badge no">This location is outside our coverage for now.</p>
+        <p class="sub">Leave a contact and we will tell you when it is covered.</p>
+        <form class="send" data-kind="waitlist" novalidate>
+          <div class="field"><label for="c2">Your email or phone</label><input id="c2" name="contact" autocomplete="email" placeholder="you@company.com or +91 ..."></div>
+          <input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn primary" type="submit" style="justify-self:start">Tell me when covered</button>
+          <p class="msg" role="status"></p>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <div>
+        <h3>Several plots?</h3>
+        <p class="sub">Register interest in batch reports and we will get in touch.</p>
+      </div>
+      <form class="send" data-kind="batch interest" novalidate>
+        <div class="field"><label for="c3">Your email or phone</label><input id="c3" name="contact" autocomplete="email" placeholder="you@company.com or +91 ..."></div>
+        <div class="field"><label for="n3">About how many plots? (optional)</label><input id="n3" name="plots" inputmode="numeric" placeholder="e.g. 25"></div>
+        <input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn primary" type="submit" style="justify-self:start">Register interest</button>
+        <p class="msg" role="status"></p>
+      </form>
+    </div>
+  </div>
+  <p class="vsnote">We use your details only to reply to your request. Prices are per patch and shown in rupees.</p>
+</section>
 
 <div class="band"><section id="problem" class="wrap">
   <div class="head"><p class="eyebrow">The problem</p><h2>Hill plots look the same on a brochure and fail very differently on the ground.</h2></div>
@@ -234,7 +324,7 @@ footer p { max-width: 62em; }
 </section></div>
 
 <section id="what" class="wrap">
-  <div class="head"><p class="eyebrow">What you get</p><h2>A site report for any point in the two states.</h2><p>Each report covers the patch of ground around your plot, about 0.8 km², and its neighbours. Every figure comes from a stored measurement and a stated rule.</p></div>
+  <div class="head"><p class="eyebrow">What you get</p><h2>A site report for any point we cover.</h2><p>Each report covers the patch of ground around your plot, about 0.8 km², and its neighbours. Every figure comes from a stored measurement and a stated rule.</p></div>
   <div class="modules">
     <div class="mod"><span class="tag">Headline</span><h3>Relative landslide rank</h3><p>Which fifth of the block's hill patches your plot falls in, from an independent slope-failure model tested on events it had not seen.</p></div>
     <div class="mod"><span class="tag">Map</span><h3>Ground at 30 m</h3><p>Buildable ground, steep ground, torrent and river floors and outburst corridors, drawn pixel by pixel around the plot.</p></div>
@@ -317,7 +407,7 @@ footer p { max-width: 62em; }
   <div><p class="eyebrow">About</p><h2 style="margin-top:14px">Built on open data, checked before it is sent.</h2></div>
   <div>
     <p>Every report is generated by the HimScan software from stored data and reviewed before it is sent, so the numbers can be traced and the limits are stated on the page.</p>
-    <p>Coverage is Uttarakhand and Himachal Pradesh. The model, its tests and their results are documented, and we can walk you through them.</p>
+    <p>We are starting with Uttarakhand and Himachal Pradesh. The model, its tests and their results are documented, and we can walk you through them.</p>
     <p style="margin-top:18px"><a href="mailto:hello@hillscanreport.com">hello@hillscanreport.com</a></p>
   </div>
 </section></div>
@@ -332,7 +422,7 @@ footer p { max-width: 62em; }
 
 <div class="wrap"><footer>
   <picture><source media="(prefers-color-scheme: dark)" srcset="img/mark-cream.png"><img class="flogo" src="img/mark-green.png" alt="" width="54" height="54"></picture>
-  <p><b>HillScan Report</b> · Hill land risk intelligence · Uttarakhand and Himachal Pradesh · <a href="https://www.linkedin.com/company/hillscan-reports" rel="noopener">LinkedIn</a></p>
+  <p><b>HillScan Report</b> · Hill land risk intelligence · Starting with Uttarakhand and Himachal Pradesh · <a href="https://www.linkedin.com/company/hillscan-reports" rel="noopener">LinkedIn</a></p>
   <p>A screening report ranks relative risk. It is not a certificate that any plot is safe, a site survey, an engineering assessment or a legal opinion, and it does not cover title, ownership, zoning or earthquake engineering. Visit the site and consult a qualified engineer and lawyer before buying, lending or building. Method and test results are shared on request.</p>
   <p>Data: Copernicus DEM, OpenStreetMap contributors (ODbL), ERA5-Land, JRC Global Surface Water, Hi-MAG glacial lakes, Randolph Glacier Inventory, Geological Survey of India landslide inventory, WorldPop. Sources and terms are listed in every report.</p>
 </footer></div>
@@ -363,6 +453,76 @@ footer p { max-width: 62em; }
     document.getElementById('zoomnote').textContent = text[level];
   }
   btns.forEach(function (b) { b.addEventListener('click', function () { set(b.dataset.level); }); });
+})();
+</script>
+<script>
+(function () {
+  var ENDPOINT = 'https://formsubmit.co/ajax/hello@hillscanreport.com';
+  var PRICE = '\u20B911,999 per patch';
+  var cov = null, point = null;
+  fetch('coverage.json').then(function (r) { return r.json(); }).then(function (d) { cov = d; }).catch(function () {});
+
+  function inRing(x, y, ring) {
+    var c = false;
+    for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      var xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+      if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c;
+    }
+    return c;
+  }
+  function covered(lat, lon) {
+    if (!cov) return null;
+    for (var k = 0; k < cov.polygons.length; k++) {
+      if (inRing(lon, lat, cov.polygons[k])) {
+        var hole = (cov.holes[k] || []).some(function (h) { return inRing(lon, lat, h); });
+        if (!hole) return true;
+      }
+    }
+    return false;
+  }
+  function parse(txt) {
+    var n = (txt.match(/-?\d+(?:\.\d+)?/g) || []).map(Number);
+    if (n.length < 2) return null;
+    var lat = n[0], lon = n[1], swapped = false;
+    if (Math.abs(lat) > 40 && Math.abs(lon) <= 40) { var t = lat; lat = lon; lon = t; swapped = true; }
+    if (lat < -90 || lat > 90 || lon < -180 || lon > 180) return null;
+    return { lat: lat, lon: lon, swapped: swapped };
+  }
+
+  var form = document.getElementById('coordform'), msg = document.getElementById('coordmsg');
+  var yes = document.getElementById('res-yes'), no = document.getElementById('res-no');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    yes.classList.remove('show'); no.classList.remove('show'); msg.textContent = '';
+    var p = parse(document.getElementById('coords').value);
+    if (!p) { msg.textContent = 'Enter two numbers, latitude then longitude, for example 30.3165, 78.0322.'; return; }
+    var c = covered(p.lat, p.lon);
+    if (c === null) { msg.textContent = 'Coverage data is still loading. Try again in a moment.'; return; }
+    point = p;
+    if (p.swapped) msg.textContent = 'We read this as latitude ' + p.lat + ', longitude ' + p.lon + '.';
+    (c ? yes : no).classList.add('show');
+  });
+
+  function okContact(v) { v = (v || '').trim(); return /.+@.+\..+/.test(v) || (v.replace(/\D/g, '').length >= 7); }
+  document.querySelectorAll('form.send').forEach(function (f) {
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var out = f.querySelector('.msg'), btn = f.querySelector('button'), kind = f.dataset.kind;
+      out.className = 'msg'; out.textContent = '';
+      var contact = f.elements.contact.value;
+      if (!okContact(contact)) { out.className = 'msg err'; out.textContent = 'Enter an email address or a phone number.'; return; }
+      var body = { _subject: 'HillScan Report: ' + kind, _template: 'table', _captcha: 'false', _honey: f.elements._honey.value,
+                   type: kind, contact: contact.trim(), page: location.href };
+      if (kind !== 'batch interest' && point) { body.latitude = point.lat; body.longitude = point.lon; body.in_coverage = (kind === 'report request') ? 'yes' : 'no'; }
+      if (kind === 'report request') body.price = PRICE;
+      if (kind === 'batch interest') body.plots = f.elements.plots.value || '';
+      btn.disabled = true; out.textContent = 'Sending...';
+      fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(body) })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function () { out.className = 'msg done'; out.textContent = 'Thank you. We will be in touch on ' + contact.trim() + '.'; f.reset(); })
+        .catch(function () { out.className = 'msg err'; out.innerHTML = 'Could not send. Please email <a href="mailto:hello@hillscanreport.com">hello@hillscanreport.com</a>.'; btn.disabled = false; });
+    });
+  });
 })();
 </script>
 </body>
