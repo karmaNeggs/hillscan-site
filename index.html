@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://hillscanreport.com/">
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="apple-touch-icon" href="img/favicon.png">
-<meta property="og:image" content="https://hillscanreport.com/img/region-dehradun.jpg">
+<meta property="og:image" content="https://hillscanreport.com/img/dehradun-region.jpg">
 <meta name="theme-color" content="#1E370A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -104,6 +104,20 @@ nav ul a:hover { color: var(--cream); }
 .facts thead th { font: 500 0.75rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--ice); }
 .facts tbody th { font-weight: 500; color: var(--muted); }
 .facts td { font-family: var(--mono); font-size: 0.92rem; }
+.zoombar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-bottom: 20px; }
+.zoombar[hidden] { display: none; }
+.zlabel { font: 500 0.78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.zbtns { display: inline-flex; border: 1.5px solid var(--glacier); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.zbtns button { font: 600 0.98rem/1 var(--body); padding: 12px 18px; border: 0; background: transparent; color: var(--glacier); cursor: pointer; border-right: 1px solid var(--line); }
+.zbtns button:last-child { border-right: 0; }
+.zbtns button small { font: 500 0.72rem/1 var(--mono); opacity: .7; margin-left: 6px; }
+.zbtns button[aria-pressed="true"] { background: var(--glacier); color: var(--glacier-ink); }
+.zbtns button:focus-visible { outline: 3px solid var(--amber); outline-offset: -3px; }
+.hexkey { background: transparent; border: 2px solid var(--ink) !important; border-radius: 3px; }
+.vs img { transition: opacity .25s ease; }
+.vs img.fade { opacity: .25; }
+.contact .alt { font-size: 0.95rem; }
+.contact .alt a { color: var(--cream); }
 .vsnote { color: var(--muted); font-size: 0.9rem; margin-top: 14px; max-width: 52em; }
 @media (max-width: 760px) { .vs { grid-template-columns: 1fr; } .facts th, .facts td { padding: 11px 12px; } }
 
@@ -203,8 +217,8 @@ footer p { max-width: 62em; }
       </div>
     </div>
     <figure class="rise" style="animation-delay:.12s">
-      <img src="img/region-dehradun.jpg" alt="Ground classes across the Dehradun valley: buildable ground in green, river and torrent floors in blue, steep ground in red" width="1338" height="1338">
-      <figcaption>From the sample report: ground classes at 30 m across the Dehradun valley. Blue is the torrent and river floors that water follows.</figcaption>
+      <img src="img/dehradun-plot.jpg" alt="Plot level: 30 metre ground classes around one plot, with the report patch outlined" width="1185" height="1185">
+      <figcaption>Plot level, from a report: 30 m ground classes around one plot, with its patch outlined. <a href="#ground">Zoom out to the region</a>.</figcaption>
     </figure>
   </header>
 </div></div>
@@ -233,19 +247,29 @@ footer p { max-width: 62em; }
 
 <div class="band"><section id="ground" class="wrap">
   <div class="head"><p class="eyebrow">The ground</p><h2>Same state, different ground.</h2><p>Dehradun's constraint is rivers and torrents on a flat valley floor. Chakrata's is slope. The report shows which, and how much, for your plot.</p></div>
+  <div class="zoombar" id="zoombar" hidden>
+    <span class="zlabel">Zoom to explore plot level</span>
+    <div class="zbtns" role="group" aria-label="Zoom level">
+      <button type="button" data-level="region" aria-pressed="true">Region <small>22 km</small></button>
+      <button type="button" data-level="area" aria-pressed="false">Area <small>6 km</small></button>
+      <button type="button" data-level="plot" aria-pressed="false">Plot <small>2.6 km</small></button>
+    </div>
+  </div>
   <div class="legend" aria-label="Map key">
     <span><i style="background:#74B787"></i>Buildable by slope rule</span>
     <span><i style="background:#C95B5B"></i>Too steep (over 25°)</span>
     <span><i style="background:#3F78D1"></i>Torrent or river floor</span>
+    <span><i class="hexkey"></i>Report patch, about 0.8 km²</span>
   </div>
   <div class="vs">
-    <figure><img src="img/region-dehradun.jpg" alt="Ground classes around the Dehradun sample plot" width="1338" height="1338" loading="lazy">
-      <figcaption><b>Dehradun</b><span>Valley floor, cut by river and torrent channels.</span></figcaption></figure>
-    <figure><img src="img/region-chakrata.jpg" alt="Ground classes around the Chakrata sample plot" width="1342" height="1342" loading="lazy">
-      <figcaption><b>Chakrata</b><span>Ridges and steep slopes, with narrow river floors.</span></figcaption></figure>
+    <figure><img id="img-dehradun" src="img/dehradun-region.jpg" alt="Ground classes around Dehradun" width="1338" height="1338" loading="lazy">
+      <figcaption><b>Dehradun</b><span class="lvl" data-for="dehradun">Valley floor, cut by river and torrent channels.</span></figcaption></figure>
+    <figure><img id="img-chakrata" src="img/chakrata-region.jpg" alt="Ground classes around Chakrata" width="1342" height="1342" loading="lazy">
+      <figcaption><b>Chakrata</b><span class="lvl" data-for="chakrata">Ridges and steep slopes, with narrow river floors.</span></figcaption></figure>
   </div>
+  <p class="vsnote" id="zoomnote">Region view, about 22 km across. Zoom in to see the neighbourhood, then the plot and its patch.</p>
   <table class="facts">
-    <thead><tr><th></th><th>Dehradun sample plot</th><th>Chakrata sample plot</th></tr></thead>
+    <thead><tr><th></th><th>Dehradun</th><th>Chakrata</th></tr></thead>
     <tbody>
       <tr><th>Elevation</th><td>651 m</td><td>2,118 m</td></tr>
       <tr><th>Position</th><td>Flat terrace or bench</td><td>Ridge or spur</td></tr>
@@ -255,7 +279,7 @@ footer p { max-width: 62em; }
       <tr><th>Torrent or river floor, 2.6 km around</th><td>10%</td><td>under 1%</td></tr>
     </tbody>
   </table>
-  <p class="vsnote">Each map shows about 22 km across, with one sample plot marked. The figures come from the sample reports: plot values are measured at the exact 30 m pixel, the shares across a 2.6 km window.</p>
+  <p class="vsnote">Figures come from a report for one plot in each town. Plot values are measured at the exact 30 m pixel, the shares across a 2.6 km window.</p>
 </section></div>
 
 <div class="band"><section id="evidence" class="wrap">
@@ -302,14 +326,43 @@ footer p { max-width: 62em; }
   <p>Tell us the location and what you plan to build or lend against. We will send a report and a short note.</p>
   <a class="btn" href="mailto:hello@hillscanreport.com?subject=Site%20report%20request">Get a report</a>
   <p>Write to <code>hello@hillscanreport.com</code></p>
+  <p class="alt">Also on <a href="https://www.linkedin.com/company/hillscan-reports" rel="noopener">LinkedIn</a></p>
 </section></div>
 
 <div class="wrap"><footer>
   <picture><source media="(prefers-color-scheme: dark)" srcset="img/mark-cream.png"><img class="flogo" src="img/mark-green.png" alt="" width="54" height="54"></picture>
-  <p><b>HillScan Report</b> · Hill land risk intelligence · Uttarakhand and Himachal Pradesh</p>
+  <p><b>HillScan Report</b> · Hill land risk intelligence · Uttarakhand and Himachal Pradesh · <a href="https://www.linkedin.com/company/hillscan-reports" rel="noopener">LinkedIn</a></p>
   <p>A screening report ranks relative risk. It is not a certificate that any plot is safe, a site survey, an engineering assessment or a legal opinion, and it does not cover title, ownership, zoning or earthquake engineering. Visit the site and consult a qualified engineer and lawyer before buying, lending or building. Method and test results are shared on request.</p>
   <p>Data: Copernicus DEM, OpenStreetMap contributors (ODbL), ERA5-Land, JRC Global Surface Water, Hi-MAG glacial lakes, Randolph Glacier Inventory, Geological Survey of India landslide inventory, WorldPop. Sources and terms are listed in every report.</p>
 </footer></div>
 
+<script>
+(function () {
+  var bar = document.getElementById('zoombar'); if (!bar) return;
+  bar.hidden = false;
+  var names = ['dehradun', 'chakrata'];
+  var text = {
+    region: 'Region view, about 22 km across. Zoom in to see the neighbourhood, then the plot and its patch.',
+    area: 'Area view, about 6 km across: the neighbourhood around the plot, where channels and slopes shape the site.',
+    plot: 'Plot level, about 2.6 km across: 30 m ground classes with the report patch outlined, about 0.8 km².'
+  };
+  var side = {
+    dehradun: { region: 'Valley floor, cut by river and torrent channels.', area: 'Flat ground between channels, with torrent floors close by.', plot: 'The whole patch is buildable by slope rule; torrent floors sit in the neighbouring patches.' },
+    chakrata: { region: 'Ridges and steep slopes, with narrow river floors.', area: 'A ridge or spur, with steep ground around it.', plot: 'Small buildable pockets in steep ground; the patch is mostly too steep.' }
+  };
+  var btns = bar.querySelectorAll('button');
+  names.forEach(function (n) { ['area', 'plot'].forEach(function (l) { var i = new Image(); i.src = 'img/' + n + '-' + l + '.jpg'; }); });
+  function set(level) {
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.level === level ? 'true' : 'false'); });
+    names.forEach(function (n) {
+      var img = document.getElementById('img-' + n); img.classList.add('fade');
+      setTimeout(function () { img.src = 'img/' + n + '-' + level + '.jpg'; img.classList.remove('fade'); }, 150);
+      document.querySelector('.lvl[data-for="' + n + '"]').textContent = side[n][level];
+    });
+    document.getElementById('zoomnote').textContent = text[level];
+  }
+  btns.forEach(function (b) { b.addEventListener('click', function () { set(b.dataset.level); }); });
+})();
+</script>
 </body>
 </html>
