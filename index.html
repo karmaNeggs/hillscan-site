@@ -36,19 +36,12 @@
   --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0E1A08; --surface: #16240D; --ice: #1A2B10; --ink: #ECEBDD; --muted: #A9B39A; --line: #2B3D1F;
-    --glacier: #C9C5AE; --glacier-ink: #1E370A; --amber: #E0A24A; color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0E1A08; --surface: #16240D; --ice: #1A2B10; --ink: #ECEBDD; --muted: #A9B39A; --line: #2B3D1F;
-  --glacier: #C9C5AE; --glacier-ink: #1E370A; --amber: #E0A24A; color-scheme: dark;
-}
+/* One fixed palette, always -- no light/dark mode switching (removed 2026-10-11: it caused
+   confusion when a visitor's system was set to dark mode). The only dark backgrounds on the page
+   are the explicit green bands (.contact, .heroband, .footerdark). */
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--ink); font: 17px/1.6 var(--body); padding-inline: 20px; padding-block: 0; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 var(--body); padding-inline: 20px; padding-block: 0; -webkit-font-smoothing: antialiased; }
 .wrap { max-width: 1120px; margin-inline: auto; }
 h1, h2, h3 { font-family: var(--display); line-height: 1.1; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
 h1 { font-size: clamp(2.5rem, 6.2vw, 4.6rem); font-weight: 700; }
@@ -106,7 +99,7 @@ nav ul a:hover { color: var(--cream); }
 .facts tbody th { font-weight: 500; color: var(--muted); }
 .facts td { font-family: var(--mono); font-size: 0.92rem; }
 .check { padding-block: clamp(48px, 7vw, 88px); }
-.cards { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(16px, 3vw, 32px); align-items: start; }
+.cards { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(16px, 3vw, 32px); align-items: stretch; }
 .cards > * { min-width: 0; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: clamp(20px, 3vw, 32px); display: grid; gap: 16px; }
 .card h3 { font-size: 1.3rem; }
@@ -126,8 +119,6 @@ button.btn[disabled] { opacity: .55; cursor: progress; }
 .badge { display: inline-flex; align-items: center; gap: 8px; font: 600 1rem/1.3 var(--body); }
 .badge.ok { color: #2B6A18; }
 .badge.no { color: var(--amber); }
-:root[data-theme="dark"] .badge.ok { color: #8FD37A; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .badge.ok { color: #8FD37A; } }
 .price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .price b { font: 700 2.4rem/1 var(--display); letter-spacing: -0.03em; }
 .price span { color: var(--muted); }
@@ -156,7 +147,10 @@ form.send { display: grid; gap: 14px; }
 @media (max-width: 760px) { .vs { grid-template-columns: 1fr; } .facts th, .facts td { padding: 11px 12px; } }
 
 section { padding-block: clamp(56px, 8vw, 104px); }
-.band { background: var(--ice); margin-inline: -20px; padding-inline: 20px; }
+.band { background: var(--ice); color: var(--ink); margin-inline: -20px; padding-inline: 20px; }
+.footerdark { background: #0E1A08; color: var(--cream); margin-inline: -20px; padding-inline: 20px; }
+.footerdark { --ink: var(--cream); --muted: rgba(230,226,207,.75); --line: rgba(230,226,207,.25); }
+.footerdark a { color: var(--cream); }
 .head { max-width: 40em; display: grid; gap: 14px; margin-bottom: clamp(28px, 4vw, 48px); }
 .head p { color: var(--muted); font-size: 1.1rem; }
 
@@ -232,10 +226,9 @@ footer p { max-width: 62em; }
     </a>
     <ul>
       <li><a href="#check">Find your report</a></li>
-      <li><a href="#what">What you get</a></li>
       <li><a href="#ground">The ground</a></li>
       <li><a href="#evidence">Evidence</a></li>
-      <li><a href="#how">How it works</a></li>
+      <li><a href="sample/hillscan-whitepaper.pdf">Whitepaper</a></li>
       <li><a href="#about">About</a></li>
     </ul>
     <a class="btn primary" href="#check">Find your report</a>
@@ -301,39 +294,19 @@ footer p { max-width: 62em; }
     <div class="card">
       <div>
         <h3>Bulk land scan</h3>
-        <p class="sub">Scanning an area or a portfolio? Share your contact and we will get in touch with area rates.</p>
+        <p class="sub">Scanning an area or a portfolio? Share your contact for area rates.</p>
       </div>
       <form class="send" data-kind="bulk land scan" novalidate>
-        <div class="field"><label for="c3">Your email or phone</label><input id="c3" name="contact" autocomplete="email" placeholder="you@company.com or +91 ..."></div>
+        <div class="row">
+          <div class="field"><label for="c3">Your email or phone</label><input id="c3" name="contact" autocomplete="email" placeholder="you@company.com or +91 ..."></div>
+          <button class="btn primary" type="submit" style="align-self:end">Get in touch</button>
+        </div>
         <input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="btn primary" type="submit" style="justify-self:start">Get in touch</button>
         <p class="msg" role="status"></p>
       </form>
     </div>
   </div>
   <p class="vsnote">We use your details only to reply to your request. Prices are per patch, in rupees.</p>
-</section>
-
-<div class="band"><section id="problem" class="wrap">
-  <div class="head"><p class="eyebrow">The problem</p><h2>Hill plots look the same on a brochure and fail very differently on the ground.</h2></div>
-  <div class="problems">
-    <div><h3>A bad plot can be a total loss</h3><p>Slides, debris flows, flash floods and glacial-lake outbursts follow terrain, rivers and rain. A site visit in a dry month shows none of it.</p></div>
-    <div><h3>National maps are coarse</h3><p>In our tests against recorded landslides, the national landslide-susceptibility map showed almost no skill at plot level. It was built for regions, not for one hillside.</p></div>
-    <div><h3>A broker's word is not diligence</h3><p>Lenders, lawyers and developers need numbers they can trace to a source, with the limits stated.</p></div>
-  </div>
-</section></div>
-
-<section id="what" class="wrap">
-  <div class="head"><p class="eyebrow">What you get</p><h2>A site report for any point we cover.</h2><p>Each report covers the patch of ground around your plot, about 0.8 km², and its neighbours. Every figure comes from a stored measurement and a stated rule.</p></div>
-  <div class="modules">
-    <div class="mod"><span class="tag">Headline</span><h3>Relative landslide rank</h3><p>Which fifth of the block's hill patches your plot falls in, from an independent slope-failure model tested on events it had not seen.</p></div>
-    <div class="mod"><span class="tag">Map</span><h3>Ground at 30 m</h3><p>Buildable ground, steep ground, torrent and river floors and outburst corridors, drawn pixel by pixel around the plot.</p></div>
-    <div class="mod"><span class="tag">Water</span><h3>Rivers, torrents and outbursts</h3><p>Height above the nearest channel, valley confinement and traced glacial-lake and glacier outburst corridors.</p></div>
-    <div class="mod"><span class="tag">Climate</span><h3>Climate, weather and water</h3><p>Heat, frost, fire weather, drought, heavy rain, wind and more, each with a value in its own unit and a fixed 1 to 5 score.</p></div>
-    <div class="mod"><span class="tag">Access</span><h3>Roads and services</h3><p>Road-network distance to the district capital, highway, hospital, school and market towns, plus road class, mapped power lines and substations, banks and ATMs.</p></div>
-    <div class="mod"><span class="tag">Judgement</span><h3>A diligence note</h3><p>A short written note on legal and ownership checks to run, earthquake design requirements and what to look for on a site visit.</p></div>
-  </div>
-  <div class="counts"><span><b>80+</b> measured values</span><span><b>9</b> sections</span><span><b>30</b> climate rows, scored 1 to 5</span><span><b>1</b> PDF per plot</span></div>
 </section>
 
 <div class="band"><section id="ground" class="wrap">
@@ -359,21 +332,18 @@ footer p { max-width: 62em; }
       <figcaption><b>Chakrata</b><span class="lvl" data-for="chakrata">Ridges and steep slopes, with narrow river floors.</span></figcaption></figure>
   </div>
   <p class="vsnote" id="zoomnote">Region view, about 22 km across. Zoom in to see the neighbourhood, then the plot and its patch.</p>
-  <table class="facts">
-    <thead><tr><th></th><th>Dehradun</th><th>Chakrata</th></tr></thead>
-    <tbody>
-      <tr><th>Elevation</th><td>651 m</td><td>2,118 m</td></tr>
-      <tr><th>Position</th><td>Flat terrace or bench</td><td>Ridge or spur</td></tr>
-      <tr><th>Slope at the plot</th><td>2.7°</td><td>9.7°</td></tr>
-      <tr><th>Buildable by slope rule, 2.6 km around</th><td>90%</td><td>25%</td></tr>
-      <tr><th>Too steep, 2.6 km around</th><td>0%</td><td>75%</td></tr>
-      <tr><th>Torrent or river floor, 2.6 km around</th><td>10%</td><td>under 1%</td></tr>
-    </tbody>
-  </table>
-  <p class="vsnote">Figures come from a report for one plot in each town. Plot values are measured at the exact 30 m pixel, the shares across a 2.6 km window.</p>
+  <div class="modules" style="margin-top:36px">
+    <div class="mod"><span class="tag">Headline</span><h3>Relative landslide rank</h3><p>Which fifth of the block's hill patches your plot falls in, from an independent slope-failure model tested on events it had not seen.</p></div>
+    <div class="mod"><span class="tag">Map</span><h3>Ground at 30 m</h3><p>Buildable ground, steep ground, torrent and river floors and outburst corridors, drawn pixel by pixel around the plot.</p></div>
+    <div class="mod"><span class="tag">Water</span><h3>Rivers, torrents and outbursts</h3><p>Height above the nearest channel, valley confinement and traced glacial-lake and glacier outburst corridors.</p></div>
+    <div class="mod"><span class="tag">Climate</span><h3>Climate, weather and water</h3><p>Heat, frost, fire weather, drought, heavy rain, wind and more, each with a value in its own unit and a fixed 1 to 5 score.</p></div>
+    <div class="mod"><span class="tag">Access</span><h3>Roads and services</h3><p>Road-network distance to the district capital, highway, hospital, school and market towns, plus road class, mapped power lines and substations, banks and ATMs.</p></div>
+    <div class="mod"><span class="tag">Judgement</span><h3>A diligence note</h3><p>A short written note on legal and ownership checks to run, earthquake design requirements and what to look for on a site visit.</p></div>
+  </div>
+  <div class="counts"><span><b>80+</b> measured values</span><span><b>9</b> sections</span><span><b>30</b> climate rows, scored 1 to 5</span><span><b>1</b> PDF per plot</span></div>
 </section></div>
 
-<div class="band"><section id="evidence" class="wrap">
+<section id="evidence" class="wrap">
   <div class="head"><p class="eyebrow">Evidence</p><h2>Tested on landslides the model had never seen.</h2><p>We trained on one inventory and tested on 67 recorded landslides found afterwards, in Himachal Pradesh and Uttarakhand.</p></div>
   <div class="evidence">
     <div>
@@ -389,41 +359,21 @@ footer p { max-width: 62em; }
       <p class="note">The rank is strong across regions and modest within one district: against similar ground in the same district its AUC is 0.66 (95% interval 0.61 to 0.71; 0.5 is chance). Samples are small, and news reports favour roads and towns, so read this as direction, not exact rates.</p>
     </div>
   </div>
-</section></div>
-
-<section id="how" class="wrap">
-  <div class="head"><p class="eyebrow">How it works</p><h2>From a location to a report.</h2></div>
-  <ol class="steps">
-    <li><h3>Send the location</h3><p>A map pin, coordinates or the village name and district.</p></li>
-    <li><h3>We scan the patch</h3><p>The plot's patch and its neighbours are read against the stored measurements and the landslide model.</p></li>
-    <li><h3>You receive the report</h3><p>A PDF with the rank, the maps and tables, and a short written diligence note.</p></li>
-  </ol>
-  <div style="margin-top:44px"><p class="eyebrow">Made for</p>
-    <div class="chips"><span>Real estate developers</span><span>Industrial site selectors</span><span>Lenders</span><span>Property lawyers</span><span>Brokers</span><span>Individual buyers</span></div>
-  </div>
 </section>
 
-<div class="band"><section id="about" class="wrap about">
-  <div><p class="eyebrow">About</p><h2 style="margin-top:14px">Built on open data, checked before it is sent.</h2></div>
-  <div>
-    <p>Every report is generated by the HimScan software from stored data and reviewed before it is sent, so the numbers can be traced and the limits are stated on the page.</p>
-    <p>We are starting with Uttarakhand and Himachal Pradesh. The model, its tests and their results are documented, and we can walk you through them.</p>
-    <p style="margin-top:18px"><a href="mailto:hello@hillscanreport.com">hello@hillscanreport.com</a></p>
-  </div>
-</section></div>
-
-<div class="contact"><section class="wrap" id="contact">
+<div class="contact"><section class="wrap" id="about">
   <h2>Scan your investments for risk.</h2>
-  <p>Tell us the location and what you plan to build or lend against. We will send a report and a short note.</p>
+  <p>Tell us the location and we will send a report and intelligence.</p>
   <a class="btn" href="mailto:hello@hillscanreport.com?subject=Site%20report%20request">Get a report</a>
-  <p>Write to <code>hello@hillscanreport.com</code></p>
-  <p class="alt">Also on <a href="https://www.linkedin.com/company/hillscan-reports" rel="noopener">LinkedIn</a></p>
+  <p>Every report is generated by the HimScan software and logged before it is sent, so the numbers can be traced and the limits are stated on the page.</p>
+  <p>We are starting with Uttarakhand and Himachal Pradesh. The model, its tests and their results are documented, and we can walk you through them.</p>
+  <p class="alt"><a href="sample/hillscan-whitepaper.pdf">Read the whitepaper</a> &middot; <a href="mailto:hello@hillscanreport.com">hello@hillscanreport.com</a> &middot; <a href="https://www.linkedin.com/company/hillscan-reports" rel="noopener">LinkedIn</a></p>
 </section></div>
 
-<div class="wrap"><footer>
-  <picture><source media="(prefers-color-scheme: dark)" srcset="img/mark-cream.png"><img class="flogo" src="img/mark-green.png" alt="" width="54" height="54"></picture>
+<div class="footerdark"><footer class="wrap">
+  <img class="flogo" src="img/mark-cream.png" alt="" width="54" height="54">
   <p><b>HillScan Report</b> · Hill land risk intelligence · Starting with Uttarakhand and Himachal Pradesh · <a href="https://www.linkedin.com/company/hillscan-reports" rel="noopener">LinkedIn</a></p>
-  <p>A screening report ranks relative risk. It is not a certificate that any plot is safe, a site survey, an engineering assessment or a legal opinion, and it does not cover title, ownership, zoning or earthquake engineering. Visit the site and consult a qualified engineer and lawyer before buying, lending or building. Method and test results are shared on request.</p>
+  <p>A screening report ranks relative risk. It is built on a model validated against both market prices and historical disaster records, and does not replace official certifications or the qualified engineering, legal and administrative requirements a purchase, loan or build still needs. Visit the site and consult a qualified engineer and lawyer before buying, lending or building. Method and test results are shared on request.</p>
   <p>Data: Copernicus DEM, OpenStreetMap contributors (ODbL), ERA5-Land, JRC Global Surface Water, Hi-MAG glacial lakes, Randolph Glacier Inventory, Geological Survey of India landslide inventory, WorldPop. Sources and terms are listed in every report.</p>
 </footer></div>
 
