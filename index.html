@@ -270,7 +270,7 @@ footer p { max-width: 62em; }
       <div class="result" id="res-yes" aria-live="polite">
         <p class="badge ok">&#10003; This location is in our coverage area.</p>
         <p class="sub" style="color:var(--ink)">We found a patch of about 0.8 km&sup2; around your point. Please share your email or phone to continue.</p>
-        <div class="price"><b>&#8377;11,999</b><span>per patch, for individual plots. Area rates can be negotiated.</span></div>
+        <div class="price"><b>&#8377;3,499</b><span>per coordinate. For bulk requests, contact us.</span></div>
         <form class="send" data-kind="report request" novalidate>
           <div class="field"><label for="c1">Your email or phone</label><input id="c1" name="contact" autocomplete="email" placeholder="you@company.com or +91 ..."></div>
           <input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -294,7 +294,7 @@ footer p { max-width: 62em; }
     <div class="card">
       <div>
         <h3>Bulk land scan</h3>
-        <p class="sub">Scanning an area or a portfolio? Share your contact for area rates.</p>
+        <p class="sub">Scanning an area or a portfolio? Share your contact and we will reply with rates.</p>
       </div>
       <form class="send" data-kind="bulk land scan" novalidate>
         <div class="row">
@@ -306,7 +306,7 @@ footer p { max-width: 62em; }
       </form>
     </div>
   </div>
-  <p class="vsnote">We use your details only to reply to your request. Prices are per patch, in rupees.</p>
+  <p class="vsnote">We use your details only to reply to your request. Prices are per coordinate, in rupees.</p>
 </section>
 
 <div class="band"><section id="ground" class="wrap">
@@ -411,7 +411,7 @@ footer p { max-width: 62em; }
 <script>
 (function () {
   var ENDPOINT = 'https://formsubmit.co/ajax/hello@hillscanreport.com';
-  var PRICE = '\u20B911,999 per patch';
+  var PRICE = '\u20B93,499 per coordinate';
   var cov = null, point = null;
   fetch('coverage.json').then(function (r) { return r.json(); }).then(function (d) { cov = d; }).catch(function () {});
 
