@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://hillscanreport.com/">
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="apple-touch-icon" href="img/favicon.png">
-<meta property="og:image" content="https://hillscanreport.com/img/dehradun-region.jpg">
+<meta property="og:image" content="https://hillscanreport.com/img/hero-risk.jpg">
 <meta name="theme-color" content="#1E370A">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"HillScan Report","url":"https://hillscanreport.com/","logo":"https://hillscanreport.com/img/logo-green.png","email":"hello@hillscanreport.com","sameAs":["https://www.linkedin.com/company/hillscan-reports"],"description":"Hill land risk intelligence: per-plot site reports on slope, rivers, torrents, landslide rank, climate and access."}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -227,7 +227,7 @@ footer p { max-width: 62em; }
     <ul>
       <li><a href="#check">Find your report</a></li>
       <li><a href="#ground">The ground</a></li>
-      <li><a href="#evidence">Evidence</a></li>
+      <li><a href="#evidence">Model stats</a></li>
       <li><a href="sample/hillscan-whitepaper.pdf">Whitepaper</a></li>
       <li><a href="#about">About</a></li>
     </ul>
@@ -245,8 +245,8 @@ footer p { max-width: 62em; }
       </div>
     </div>
     <figure class="rise" style="animation-delay:.12s">
-      <img src="img/dehradun-plot.jpg" alt="Plot level: 30 metre ground classes around one plot, with the report patch outlined" width="1185" height="1185">
-      <figcaption>From a report: buildable ground, steep slopes and river floors around one plot. <a href="#ground">Zoom out to the region</a>.</figcaption>
+      <img src="img/hero-risk.jpg" alt="Risk map of hill land near Rishikesh: green lower risk, red higher risk, one hexagon per patch" width="1185" height="1185">
+      <figcaption>Risk across hill land, one hexagon per patch: green is lower, red is higher. <a href="#ground">See it zoom in</a>.</figcaption>
     </figure>
   </header>
 </div></div>
@@ -320,15 +320,14 @@ footer p { max-width: 62em; }
     </div>
   </div>
   <div class="legend" aria-label="Map key">
-    <span><i style="background:#74B787"></i>Buildable by slope rule</span>
-    <span><i style="background:#C95B5B"></i>Too steep (over 25°)</span>
-    <span><i style="background:#3F78D1"></i>Torrent or river floor</span>
-    <span><i class="hexkey"></i>Report patch, about 0.8 km²</span>
+    <span><i style="background:linear-gradient(90deg,#1a9850,#fee08b,#a50026);width:34px"></i>Lower to higher risk</span>
+    <span><i style="background:#3F78D1"></i>River or torrent floor (close-up)</span>
+    <span><i class="hexkey"></i>Report patch, about 0.8 km&sup2;</span>
   </div>
   <div class="vs">
-    <figure><img id="img-dehradun" src="img/dehradun-region.jpg" alt="Ground classes around Dehradun" width="1338" height="1338" loading="lazy">
+    <figure><img id="img-dehradun" src="img/dehradun-region.jpg" alt="Risk map around Dehradun" width="1338" height="1338" loading="lazy">
       <figcaption><b>Dehradun</b><span class="lvl" data-for="dehradun">Valley floor, cut by river and torrent channels.</span></figcaption></figure>
-    <figure><img id="img-chakrata" src="img/chakrata-region.jpg" alt="Ground classes around Chakrata" width="1342" height="1342" loading="lazy">
+    <figure><img id="img-chakrata" src="img/chakrata-region.jpg" alt="Risk map around Chakrata" width="1342" height="1342" loading="lazy">
       <figcaption><b>Chakrata</b><span class="lvl" data-for="chakrata">Ridges and steep slopes, with narrow river floors.</span></figcaption></figure>
   </div>
   <p class="vsnote" id="zoomnote">Region view, about 22 km across. Zoom in to see the neighbourhood, then the plot and its patch.</p>
@@ -344,12 +343,14 @@ footer p { max-width: 62em; }
 </section></div>
 
 <section id="evidence" class="wrap">
-  <div class="head"><p class="eyebrow">Evidence</p><h2>It finds where landslides and floods happen.</h2><p>Past landslides and floods across Himachal Pradesh and Uttarakhand, compared with how we rank the land.*</p></div>
+  <div class="head"><p class="eyebrow">Model stats</p></div>
   <div class="evidence">
     <div>
-      <div class="big">64%<small>of past landslides and floods happened in the top-ranked fifth of land. Chance would be 20%.<br>Only 2% happened in the lowest-ranked fifth.</small></div>
+      <div class="big">64%<small>of past landslides and floods happened in the top-ranked fifth of land.<br>Only 2% happened in the lowest-ranked fifth.</small></div>
+      <div class="big" style="margin-top:34px;font-size:clamp(2.4rem,6vw,3.8rem)">AUC 0.80<small>on a blind sample of documented landslides and floods*</small></div>
+      <div class="big" style="margin-top:30px;font-size:clamp(1.7rem,4vw,2.4rem)">+0.25<small>Livability&ndash;price link: Livability scores track what hill land sells for*</small></div>
     </div>
-    <div class="chart" role="img" aria-label="Share of past landslides and floods by risk rank of the land: lowest fifth 2 percent, then 6, 9 and 20 percent, highest fifth 64 percent; an even spread would be 20 percent each.">
+    <div class="chart" role="img" aria-label="Share of past landslides and floods by risk rank of the land: lowest fifth 2 percent, then 6, 9 and 20 percent, highest fifth 64 percent.">
       <h3>Where past landslides and floods happened</h3>
       <p class="sub">Share of events in each fifth of land, ranked by risk</p>
       <div class="bar"><span>Lowest-risk fifth</span><div class="track"><div class="fill" style="width:2%"></div><span class="val" style="--w:2%">2%</span></div></div>
@@ -357,10 +358,9 @@ footer p { max-width: 62em; }
       <div class="bar"><span>Middle fifth</span><div class="track"><div class="fill" style="width:9%"></div><span class="val" style="--w:9%">9%</span></div></div>
       <div class="bar"><span>Fourth fifth</span><div class="track"><div class="fill" style="width:20%"></div><span class="val" style="--w:20%">20%</span></div></div>
       <div class="bar"><span>Highest-risk fifth</span><div class="track"><div class="fill" style="width:64%"></div><span class="val" style="--w:64%">64%</span></div></div>
-      <div class="bar"><span>Even spread (chance)</span><div class="track"><div class="fill chance" style="width:20%"></div><span class="val" style="--w:20%">20%</span></div></div>
       <div class="axis"><span></span><span><i>0%</i><i>50%</i><i>100%</i></span></div>
-      <p class="note"><b>Ranking accuracy (AUC) 0.80</b> out of 1.00; 0.50 is a coin toss. The top-ranked tenth of land held 42% of past events, over four times an even spread, and 89% happened on the riskier half of the land.</p>
-      <p class="note" style="font-size:.78rem;opacity:.8">*Tested on past landslides and floods kept aside when the model was built, across 10 map areas of hill terrain. A relative ranking of risk, not a probability. Details in the whitepaper.</p>
+      <p class="note">The top-ranked tenth of land held 42% of past events, and 89% happened on the riskier half of the land.</p>
+      <p class="note" style="font-size:.78rem;opacity:.8">*AUC: 1.00 is perfect and 0.50 is a coin toss. Tested on past landslides and floods kept aside when the model was built, across 10 map areas of hill terrain; a relative ranking of risk, not a probability. Livability&ndash;price link: rank correlation between the Livability score and asking prices in 194 hill localities (+0.21 across all 300); weaker outside Dehradun. Details in the whitepaper.</p>
     </div>
   </div>
 </section>
