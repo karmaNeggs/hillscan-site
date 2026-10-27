@@ -165,8 +165,11 @@ section { padding-block: clamp(56px, 8vw, 104px); }
 .mod .tag { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--glacier); }
 @media (max-width: 960px) { .modules { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 620px) { .modules { grid-template-columns: 1fr; } }
-.counts { display: flex; flex-wrap: wrap; gap: 8px 36px; margin-top: 30px; font: 500 0.95rem/1.4 var(--mono); color: var(--muted); }
-.counts b { color: var(--ink); font-weight: 500; }
+.proprietary { margin-top: 36px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: clamp(22px, 4vw, 38px); }
+.proprietary p { color: var(--muted); font-size: 1.12rem; max-width: 46em; margin-top: 10px; }
+.counts { display: flex; flex-wrap: wrap; gap: 14px 44px; margin-top: 26px; font: 500 1rem/1.3 var(--body); color: var(--muted); }
+.counts span { display: grid; }
+.counts b { color: var(--ink); font: 700 clamp(1.8rem, 4vw, 2.6rem)/1 var(--display); letter-spacing: -0.02em; }
 
 .evidence { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
 .evidence > * { min-width: 0; }
@@ -310,7 +313,7 @@ footer p { max-width: 62em; }
 </section>
 
 <div class="band"><section id="ground" class="wrap">
-  <div class="head"><p class="eyebrow">The ground</p><h2>Same state, different ground.</h2><p>Dehradun's constraint is rivers and torrents on a flat valley floor. Chakrata's is slope. The report shows which, and how much, for your plot.</p></div>
+  <div class="head"><p class="eyebrow">The ground</p><h2>Same state, different ground.</h2><p>Dehradun's constraint is rivers and torrents on a flat valley floor. Chakrata's is slope. Our reports capture deep nuances of your target land across hills to help you select the best patch.</p></div>
   <div class="zoombar" id="zoombar" hidden>
     <span class="zlabel">Zoom to explore plot level</span>
     <div class="zbtns" role="group" aria-label="Zoom level">
@@ -331,15 +334,11 @@ footer p { max-width: 62em; }
       <figcaption><b>Chakrata</b><span class="lvl" data-for="chakrata">Ridges and steep slopes, with narrow river floors.</span></figcaption></figure>
   </div>
   <p class="vsnote" id="zoomnote">Region view, about 22 km across. Zoom in to see the neighbourhood, then the plot and its patch.</p>
-  <div class="modules" style="margin-top:36px">
-    <div class="mod"><span class="tag">Verdict</span><h3>Red, amber or green</h3><p>Where your plot ranks for landslide and flood risk against similar hill land, in one line, with the reasons behind it.</p></div>
-    <div class="mod"><span class="tag">Map</span><h3>The ground, mapped</h3><p>Buildable ground, steep slopes, river and torrent floors and lake-outburst paths, drawn around your plot.</p></div>
-    <div class="mod"><span class="tag">Water</span><h3>Rivers, torrents and outbursts</h3><p>How low and how close your plot sits to rivers and torrents, and whether a glacial-lake outburst path passes it.</p></div>
-    <div class="mod"><span class="tag">Climate</span><h3>Climate, weather and water</h3><p>Heat, frost, fire weather, drought, heavy rain, wind and more, each scored 1 (low) to 5 (high).</p></div>
-    <div class="mod"><span class="tag">Access</span><h3>Roads and services</h3><p>Road distance to the district capital, highway, hospital, school and market town, plus power lines, banks and ATMs.</p></div>
-    <div class="mod"><span class="tag">Judgement</span><h3>A diligence note</h3><p>A short note on the legal and ownership checks to run, earthquake design requirements and what to look for on a site visit.</p></div>
+  <div class="proprietary">
+    <h3>Proprietary scoring for land research</h3>
+    <p>We use proprietary models to score land on Risk and Livability. Every report is multi-faceted and deep, built for all your land research needs.</p>
+    <div class="counts"><span><b>80+</b> measured values</span><span><b>9</b> report sections</span><span><b>30</b> climate rows, each scored 1 to 5</span><span><b>1</b> PDF per plot</span></div>
   </div>
-  <div class="counts"><span><b>80+</b> measured values</span><span><b>9</b> sections</span><span><b>30</b> climate rows, scored 1 to 5</span><span><b>1</b> PDF per plot</span></div>
 </section></div>
 
 <section id="evidence" class="wrap">
